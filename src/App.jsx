@@ -37,64 +37,101 @@ export default class App extends Component {
       },
     ],
   };
+  cart = {
+    items: [
+      {
+        id: 1,
+        name: "product 1",
+        quantity: 1,
+        description: "This is kicks zone product number 1",
+      },
+      {
+        id: 2,
+        name: "product 2",
+        quantity: 2,
+        description: "This is kicks zone product number 2",
+      },
+    ],
+  };
 
   // handleDelete = (id) => {
   //   this.setState({
-  //     products: this.state.products.filter((counter) => counter.id !== id),
+  //     products: this.state.products.filter((product) => product.id !== id),
   //   });
   // };
 
   handleReset = () => {
     this.setState({
-      products: this.state.products.map((counter) => {
+      products: this.state.products.map((product) => {
         return {
-          ...counter,
+          ...product,
           quantity: 0,
         };
       }),
     });
   };
 
+  addToCart = (data) => {
+    // console.log(data);
+    this.setState({
+      // cartProducts: this.cart.items.map((item) => {
+      //   if (item.id === data.id) {
+      //     return {
+      //       ...item,
+      //       quantity: item.quantity + data.quantity,
+      //     };
+      //   }
+      //   return item;
+      // }),
+      cartProducts: (this.cart.items = [...this.cart.items, data]),
+    });
+  };
+
   handleIncrement = (id) => {
     this.setState({
-      products: this.state.products.map((counter) => {
-        if (counter.id === id) {
+      products: this.state.products.map((product) => {
+        if (product.id === id) {
           return {
-            ...counter,
-            quantity: counter.quantity + 1,
+            ...product,
+            quantity: product.quantity + 1,
           };
         }
-        return counter;
+        return product;
       }),
     });
   };
 
   handleDecrement = (id) => {
     this.setState({
-      products: this.state.products.map((counter) => {
-        if (counter.id === id) {
+      products: this.state.products.map((product) => {
+        if (product.id === id) {
           return {
-            ...counter,
-            quantity: counter.quantity - 1,
+            ...product,
+            quantity: product.quantity - 1,
           };
         }
-        return counter;
+        return product;
       }),
     });
   };
 
-  getCountersWithValue = () => {
-    return this.state.products.filter((product) => product.quantity > 0).length;
+  getCartWithValue = () => {
+    return this.cart.items.filter((item) => item.quantity > 0).length;
   };
 
   render() {
     return (
       <div>
-        <NavBar totalCount={this.getCountersWithValue()} />
+        <NavBar
+          totalCount={this.getCartWithValue()}
+          cartProducts={this.cart.items}
+        />
         <div className="container-sm">
           {
             <Counters
               products={this.state.products}
+              cartProducts={this.cart.products}
+              addToCart={this.addToCart}
               // onDelete={this.handleDelete}
               onIncrement={this.handleIncrement}
               onDecrement={this.handleDecrement}

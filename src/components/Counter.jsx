@@ -6,56 +6,72 @@ export default class Counter extends Component {
   }
 
   getClassName() {
-    if (this.props.counter.quantity > 0) {
+    if (this.props.product.quantity > 0) {
       return "badge bg-primary";
     }
     return "badge bg-warning text-dark";
   }
 
   formatText() {
-    if (this.props.counter.quantity > 0) {
-      return this.props.counter.quantity;
+    if (this.props.product.quantity > 0) {
+      return this.props.product.quantity;
     }
     return "Zero";
   }
 
+  formatButton() {
+    if (this.props.product.quantity > 0) {
+      return this.props.product.quantity;
+    }
+    return;
+  }
+
   componentWillUnmount() {
-    console.log("unmounting...");
+    // console.log("unmounting...");
   }
 
   render() {
-    const { counter, children } = this.props;
+    const { product, children, cart, addToCart } = this.props;
     return (
       <>
         {children}
         <div className="card">
           <div className="card-body">
-            <h5 className="card-title">{counter.name}</h5>
-            <p className="card-text">{counter.description}</p>
+            <h5 className="card-title">{product.name}</h5>
+            <p className="card-text">{product.description}</p>
             <div className="btn-group" role="group" aria-label="Basic example">
               <button
-                onClick={() => this.props.onIncrement(counter.id)}
+                onClick={() => this.props.onIncrement(product.id)}
                 type="button"
-                className="btn btn-info p-0 px-2 fw-bold"
+                className="btn btn-info p-0 px-2 fw-bold text-white"
               >
                 +
               </button>
               <span className="px-2 border">{this.formatText()}</span>
               <button
-                onClick={() => this.props.onDecrement(counter.id)}
-                disabled={counter.quantity === 0}
+                onClick={() => this.props.onDecrement(product.id)}
+                disabled={product.quantity === 0}
                 type="button"
-                className="btn btn-info p-0 px-2 fw-bold"
+                className="btn btn-info p-0 px-2 fw-bold text-white"
               >
                 -
               </button>
             </div>
+            <br />
+            {product.quantity > 0 && (
+              <button
+                className="btn btn-primary my-2"
+                onClick={() => this.props.addToCart(product)}
+              >
+                Add to cart
+              </button>
+            )}
           </div>
         </div>
-        {/* <img src={this.props.counter.image}></img>
-        <a href={this.props.counter.image}>{this.getName()}</a> */}
+        {/* <img src={this.props.product.image}></img>
+        <a href={this.props.product.image}>{this.getName()}</a> */}
         {/* <button
-          onClick={() => this.props.onDelete(counter.id)}
+          onClick={() => this.props.onDelete(product.id)}
           className="btn btn-danger ms-1"
         >
           Delete
