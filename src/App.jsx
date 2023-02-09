@@ -36,9 +36,7 @@ export default class App extends Component {
         description: "This is kicks zone product number 5",
       },
     ],
-  };
-  cart = {
-    items: [
+    cart: [
       {
         id: 1,
         name: "product 1",
@@ -72,9 +70,8 @@ export default class App extends Component {
   };
 
   addToCart = (data) => {
-    // console.log(data);
     this.setState({
-      // cartProducts: this.cart.items.map((item) => {
+      // cartProducts: this.state.cart.map((item) => { // hindi gumagana
       //   if (item.id === data.id) {
       //     return {
       //       ...item,
@@ -83,7 +80,7 @@ export default class App extends Component {
       //   }
       //   return item;
       // }),
-      cartProducts: (this.cart.items = [...this.cart.items, data]),
+      cartProducts: (this.state.cart = [...this.state.cart, data]), // gumagana
     });
   };
 
@@ -116,7 +113,11 @@ export default class App extends Component {
   };
 
   getCartWithValue = () => {
-    return this.cart.items.filter((item) => item.quantity > 0).length;
+    return this.state.cart.filter((item) => item.quantity > 0).length;
+  };
+
+  displayCart = () => {
+    return this.state.cart;
   };
 
   render() {
@@ -124,13 +125,13 @@ export default class App extends Component {
       <div>
         <NavBar
           totalCount={this.getCartWithValue()}
-          cartProducts={this.cart.items}
+          cartProducts={this.state.cart}
         />
         <div className="container-sm">
           {
             <Counters
               products={this.state.products}
-              cartProducts={this.cart.products}
+              cartProducts={this.state.cart}
               addToCart={this.addToCart}
               // onDelete={this.handleDelete}
               onIncrement={this.handleIncrement}

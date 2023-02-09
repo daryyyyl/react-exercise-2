@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button, Space } from "antd";
 
 export default class Counter extends Component {
   getName() {
@@ -35,7 +36,7 @@ export default class Counter extends Component {
     return (
       <>
         {children}
-        <div className="card">
+        <div className="card p-1">
           <div className="card-body">
             <h5 className="card-title">{product.name}</h5>
             <p className="card-text">{product.description}</p>
@@ -57,25 +58,19 @@ export default class Counter extends Component {
                 -
               </button>
             </div>
-            <br />
             {product.quantity > 0 && (
-              <button
-                className="btn btn-primary my-2"
-                onClick={() => this.props.addToCart(product)}
-              >
-                Add to cart
-              </button>
+              <Space>
+                <Button
+                  type="primary"
+                  className="ms-2"
+                  onClick={() => this.props.addToCart(product)}
+                >
+                  Add<i className="fa-solid fa-cart-plus ms-2"></i>
+                </Button>
+              </Space>
             )}
           </div>
         </div>
-        {/* <img src={this.props.product.image}></img>
-        <a href={this.props.product.image}>{this.getName()}</a> */}
-        {/* <button
-          onClick={() => this.props.onDelete(product.id)}
-          className="btn btn-danger ms-1"
-        >
-          Delete
-        </button> */}
       </>
     );
   }
