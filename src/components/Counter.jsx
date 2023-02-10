@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Space } from "antd";
+import { Button, Space, Card, Input } from "antd";
 
 export default class Counter extends Component {
   getName() {
@@ -33,44 +33,41 @@ export default class Counter extends Component {
 
   render() {
     const { product, children, cart, addToCart } = this.props;
+    const { Meta } = Card;
+    const ButtonGroup = Button.Group;
     return (
       <>
         {children}
-        <div className="card p-1">
-          <div className="card-body">
-            <h5 className="card-title">{product.name}</h5>
-            <p className="card-text">{product.description}</p>
-            <div className="btn-group" role="group" aria-label="Basic example">
-              <button
-                onClick={() => this.props.onIncrement(product.id)}
-                type="button"
-                className="btn btn-info p-0 px-2 fw-bold text-white"
-              >
-                +
-              </button>
-              <span className="px-2 border">{this.formatText()}</span>
-              <button
-                onClick={() => this.props.onDecrement(product.id)}
-                disabled={product.quantity === 0}
-                type="button"
-                className="btn btn-info p-0 px-2 fw-bold text-white"
-              >
-                -
-              </button>
-            </div>
-            {product.quantity > 0 && (
-              <Space>
-                <Button
-                  type="primary"
-                  className="ms-2"
-                  onClick={() => this.props.addToCart(product)}
-                >
-                  Add<i className="fa-solid fa-cart-plus ms-2"></i>
-                </Button>
-              </Space>
-            )}
+        <Card cover={<img alt={product.name} src={product.image} />}>
+          <Meta
+            title={product.name}
+            description={product.description}
+            className="mb-2"
+          />
+          <div className="site-input-group-wrapper mb-2">
+            <Input.Group compact>
+              <Button type="primary">+</Button>
+              <Input
+                style={{ width: "calc(100% - 78px)" }}
+                value={product.quantity}
+                className="text-center"
+                readOnly
+              />
+              <Button type="primary">-</Button>
+            </Input.Group>
           </div>
-        </div>
+          {product.quantity > 0 && (
+            <Space>
+              <Button
+                type="primary"
+                size="middle"
+                onClick={() => this.props.addToCart(product)}
+              >
+                Add<i className="fa-solid fa-cart-plus ms-2"></i>
+              </Button>
+            </Space>
+          )}
+        </Card>
       </>
     );
   }
