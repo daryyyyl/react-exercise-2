@@ -17,6 +17,7 @@ export default class Counter extends Component {
     if (this.props.product.quantity > 0) {
       return this.props.product.quantity;
     }
+    this.props.product.quantity = 0;
     return "Zero";
   }
 
@@ -46,14 +47,24 @@ export default class Counter extends Component {
           />
           <div className="site-input-group-wrapper mb-2">
             <Input.Group compact>
-              <Button type="primary">+</Button>
+              <Button
+                type="primary"
+                onClick={() => this.props.onIncrement(product.id, "list")}
+              >
+                +
+              </Button>
               <Input
                 style={{ width: "calc(100% - 78px)" }}
-                value={product.quantity}
+                value={this.formatText()}
                 className="text-center"
                 readOnly
               />
-              <Button type="primary">-</Button>
+              <Button
+                type="primary"
+                onClick={() => this.props.onDecrement(product.id, "list")}
+              >
+                -
+              </Button>
             </Input.Group>
           </div>
           {product.quantity > 0 && (

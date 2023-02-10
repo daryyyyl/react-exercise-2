@@ -35,9 +35,14 @@ export default class Counters extends Component {
         <div className="col-md-12 mb-3">
           <Divider orientation="left">Cart</Divider>
         </div>
-        {cartProducts.map((product) => (
-          <div className="col-md-4" key={product.id}>
-            <Cart product={product} onDelete={onDelete} />
+        {cartProducts.map((cartProduct) => (
+          <div className="col-md-4" key={cartProduct.id}>
+            <Cart
+              cartProduct={cartProduct}
+              onIncrement={onIncrement}
+              onDecrement={onDecrement}
+              onDelete={onDelete}
+            />
           </div>
         ))}
       </div>

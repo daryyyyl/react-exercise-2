@@ -84,46 +84,86 @@ export default class App extends Component {
   };
 
   addToCart = (data) => {
-    this.setState({
-      // cartProducts: this.state.cart.map((item) => { // hindi gumagana
-      //   if (item.id === data.id) {
-      //     return {
-      //       ...item,
-      //       quantity: item.quantity + data.quantity,
-      //     };
-      //   }
-      //   return item;
-      // }),
-      cartProducts: (this.state.cart = [...this.state.cart, data]), // gumagana
+    let exists = false;
+
+    this.state.cart.map((product) => {
+      if (product.id === data.id) exists = true;
     });
+
+    if (exists) {
+      this.setState({
+        cart: this.state.cart.map((item) => {
+          if (item.id === data.id) {
+            exists = true;
+            return {
+              ...item,
+              quantity: item.quantity + data.quantity,
+            };
+          }
+          return item;
+        }),
+      });
+    } else {
+      this.setState({
+        cart: (this.state.cart = [...this.state.cart, data]),
+      });
+    }
   };
 
-  handleIncrement = (id) => {
-    this.setState({
-      products: this.state.products.map((product) => {
-        if (product.id === id) {
-          return {
-            ...product,
-            quantity: product.quantity + 1,
-          };
-        }
-        return product;
-      }),
-    });
+  handleIncrement = (id, loc) => {
+    if (loc === "list") {
+      this.setState({
+        products: this.state.products.map((product) => {
+          if (product.id === id) {
+            return {
+              ...product,
+              quantity: product.quantity + 1,
+            };
+          }
+          return product;
+        }),
+      });
+    } else {
+      this.setState({
+        cart: this.state.cart.map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              quantity: item.quantity + 1,
+            };
+          }
+          return item;
+        }),
+      });
+    }
   };
 
-  handleDecrement = (id) => {
-    this.setState({
-      products: this.state.products.map((product) => {
-        if (product.id === id) {
-          return {
-            ...product,
-            quantity: product.quantity - 1,
-          };
-        }
-        return product;
-      }),
-    });
+  handleDecrement = (id, loc) => {
+    if (loc === "list") {
+      this.setState({
+        products: this.state.products.map((product) => {
+          if (product.id === id) {
+            return {
+              ...product,
+              quantity: product.quantity - 1,
+            };
+          }
+          return product;
+        }),
+      });
+    } else if (loc === "cart") {
+      this.setState({
+        cart: this.state.cart.map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              quantity: item.quantity - 1,
+            };
+          }
+          return item;
+        }),
+      });
+    }
   };
 
   getCartWithValue = () => {
